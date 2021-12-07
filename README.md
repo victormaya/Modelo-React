@@ -196,6 +196,79 @@ Para ter a interface mais limpa crio uma pasta '.vscode' na raíz do projeto, e 
 
 ```
 
+# Styled-Components <a name="styled-components"></a>
+
+No terminal instale o SC:
+
+```
+npm install styled-components
+```
+
+No VSCode use a extensão vscode-styled-components
+
+No arquivo que voce deseja utilizar o SC, importe-o da seguinte maneira:
+
+```
+import styled from 'styled-components'
+```
+
+e crie uma função referente ao componente estilizado que deseja criar:
+
+```
+export const Container = styled.div`
+
+`;
+```
+
+OBS: Atente-se que o q vem após o "styled." é a tag html.
+
+No arquivo que você deseja utilizar o estilo, importe-o desestruturando os componentes de estilo criados:
+
+```
+import { Container } from './styled';
+
+```
+
+E use-o como uma tag html:
+
+```
+const App = () => {
+  return (
+    <div>
+      <Container>Meu App</Container>
+    </div>
+  );
+};
+```
+
+Para passar valores por propriedades para o styled, você pode passar da mesma forma que um react normal:
+
+```
+  <Container background='#000'>Meu App</Container>
+```
+
+e para usar a propriedade no SC utilize a seguinte sintaxe:
+
+```
+export const Container = styled.div`
+  background: ${(props) => props.background}
+`;
+```
+
+ou desestruturando:
+
+```
+export const Container = styled.div`
+  background: ${({background}) => background}
+`;
+```
+
+OBS: 
+- Estados tambem podem ser passados pois o JS funciona normalmente no SC. Você pode fazer ternarios, por exemplo.
+- Pseudo-elementos sao usados da mesma forma que o css padrão.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

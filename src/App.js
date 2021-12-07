@@ -1,7 +1,12 @@
 import React from 'react';
+import { Titulo } from './styled';
 
 const App = () => {
-  return <div>Meu App</div>;
+  return (
+    <div>
+      <Titulo background='#000'>Meu App</Titulo>
+    </div>
+  );
 };
 
 export default App;
