@@ -377,7 +377,7 @@ const Login = () => {
 };
 ```
 
-##Páginas Dinâmicas
+## Páginas Dinâmicas
 
 Páginas dinâmicas precisam de um id para serem chamadas, ou seja, se você tem uma página "/produto", mas q seja dinamica de acordo com cada produto, a rota será: "/produto/notebook", por exemplo.
 
@@ -409,7 +409,7 @@ const Produto = () => {
 ```
 Esse valor é usado, principalmente, para fazer um fetch.
 
-##useLocation
+## useLocation
 Retorna o objeto location, com diversas informações sobre a rota atual, como o caminho, parâmetros de busca e mais.
 
 ```
