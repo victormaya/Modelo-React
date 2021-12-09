@@ -377,7 +377,7 @@ const Login = () => {
 };
 ```
 
-## Páginas Dinâmicas
+## Páginas Dinâmicas - useParams
 
 Páginas dinâmicas precisam de um id para serem chamadas, ou seja, se você tem uma página "/produto", mas q seja dinamica de acordo com cada produto, a rota será: "/produto/notebook", por exemplo.
 
