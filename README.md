@@ -1,3 +1,5 @@
+Fonte: origamid.com
+
 # Configurando o Ambiente <a name="configurando-ambiente"></a>
 
 Inicialmente é dado o npx create-react-app meuapp.
@@ -407,9 +409,11 @@ const Produto = () => {
   );
 };
 ```
+
 Esse valor é usado, principalmente, para fazer um fetch.
 
 ## useLocation
+
 Retorna o objeto location, com diversas informações sobre a rota atual, como o caminho, parâmetros de busca e mais.
 
 ```
@@ -427,3 +431,112 @@ const Header = () => {
   return <div></div>;
 };
 ```
+
+## Rotas Aninhadas
+
+Pode-se utilizar rotas dentro de uma pagina que já é uma rota.
+Para isso, a página que voce quer utilizar como a nova gerenciadora de rotas deve ser chamada adicionando um /\* no final do path.
+Exemplo em produto, no App.js:
+
+```
+  <Route path="produto/:id/*" element={<Produto />}>
+```
+
+Na página produto, por exemplo, o componente de rota inicial deve ser o "/" ou apenas vazio "".
+O to da navegação deve ser apenas vazio "".
+Exemplo:
+
+```
+<div>
+  <h1>Produto: {params.id}</h1>
+  <nav>
+    <NavLink to="">Descrição</NavLink>
+    <NavLink to="avaliacao">Avaliação</NavLink>
+    <NavLink to="customizado">Customizado</NavLink>
+  </nav>
+  <Routes>
+    <Route path="/" element={<ProdutoDescricao />} />
+    <Route path="avaliacao" element={<ProdutoAvaliacao />} />
+    <Route path="customizado" element={<ProdutoCustomizado />} />
+  </Routes>
+</div>
+```
+
+## Head
+
+Comos não temos acesso ao Head para alterar Nome e Descrição de cada página, criamos uma função que utiliza do JS pra fazer essas alterações.
+
+Primeiro criamos um arquivo Head.js com o seguinte conteúdo:
+
+```
+import React from 'react';
+
+function Head(props) {
+  React.useEffect(() => {
+    document.title = "Nome do site | " + props.title;
+    document
+      .querySelector("meta[name='description']")
+      .setAttribute('content', props.description);
+  }, [props]);
+  return <></>;
+}
+
+export default Head;
+```
+
+OBS: Voce pode alterar onde esta indicado "Nome do site" para o nome do seu site, ou apenas remova-o.
+
+Agora basta importar o Head em cada pagina que voce queira alterar o titulo e descrição, e usar as propriedades title e description.
+
+```
+  <Head title="Página Sobre" description="Descrição da sobre" />
+```
+
+## PropTypes
+
+No meu padrão de projetos, uso sempre o PropTypes, ele dará consistencia, pois estará definindo um tipo especifico de valor que deve ser recebido em cada prop.
+Uso em todas as páginas que recebem Props.
+
+Para usá-lo, importe-o:
+
+```
+import PropTypes from 'prop-types';
+```
+
+No final do código, antes do export default, você cria o objeto proptype:
+
+```
+NomeDoComponente.propTypes = {
+  margin: PropTypes.string.isRequired,
+  width: PropTypes.number,
+  disabled: PropTypes.bool,
+};
+```
+
+- "NomeDoComponente" deve ser alterado para o nome do componente em questão que recebe essas props.
+- isRequired serve para que exiba o erro no console caso envie a prop vazia, ou seja, ela é obrigatoria para o funcionamento deste componente.
+
+Caso um valor nao tenha sido enviado mas você queira definir um valor padrão pra quando isso ocorrer, você pode utilizar o defaultProps:
+
+```
+Button.defaultProps = {
+  width: 200,
+  disabled: false,
+};
+```
+
+## Lazy e Suspense
+
+Em Contrução...
+
+## Memo
+
+Em Contrução...
+
+## useReducer
+
+Em Contrução...
+
+## Organização de pastas e Componentes
+
+Em Contrução...
