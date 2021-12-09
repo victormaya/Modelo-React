@@ -1,4 +1,25 @@
-Fonte: origamid.com
+# Sumário
+
+- [Configurando o Ambiente](#configurando-ambiente)
+  - [Organização de pastas e Componentes](#organizacao)
+- [Styled-Components](#styled-components)
+- [React Router Dom V6](#react-router-dom-v6)
+  - [Link](#link)
+  - [useNavigate](#usenavigate)
+  - [Páginas Dinâmicas - useParams](#useparams)
+  - [useLocation](#uselocation)
+  - [Rotas Aninhadas](#rotas-aninhadas)
+- [Head](#head)
+- [PropTypes](#proptypes)
+- [Lazy e Suspense](#lazy-suspense)
+- [Memo](#memo)
+- [useReducer](#usereducer)
+<br>
+<br>
+<br>
+---
+<br>
+<br>
 
 # Configurando o Ambiente <a name="configurando-ambiente"></a>
 
@@ -198,6 +219,10 @@ Para ter a interface mais limpa crio uma pasta '.vscode' na raíz do projeto, e 
 
 ```
 
+## Organização de pastas e Componentes <a name="organizacao"></a>
+
+Em Contrução...
+
 # Styled-Components <a name="styled-components"></a>
 
 No terminal instale o SC:
@@ -270,7 +295,7 @@ OBS:
 - Estados tambem podem ser passados pois o JS funciona normalmente no SC. Você pode fazer ternarios, por exemplo.
 - Pseudo-elementos sao usados da mesma forma que o css padrão.
 
-# React Router Dom V6 <a name="React Router Dom"></a>
+# React Router Dom V6 <a name="react-router-dom-v6"></a>
 
 No terminal instale o RRD:
 
@@ -329,7 +354,7 @@ const App = () => {
 Por fim, basta apenas ir atribuindo novas paginas ao RouterDom.
 OBS: Header e Footers que sempre se repetem, podem ser colocados dentro de BrowserRouter mas fora de Routes.
 
-## Link
+## Link <a name="Link"></a>
 
 Para navegar entre páginas utilize o Link. Para importá-lo:
 
@@ -355,7 +380,7 @@ import { NavLink } from 'react-router-dom';
 
 Ao utilizar o NavLink para ir para "/" adicione a propriedade end, pois todos os caminhos tem "/" (exemplo: "/sobre"), adicionando o end, ele reconhecerá apenas a pagina "/" propriamente dita.
 
-## useNavigate
+## useNavigate <a name="usenavigate"></a>
 
 Para fazer navegação que nao seja por meio de uma tag "a", e sim por função, utilize o useNavigate.
 Exemplo de utilização:
@@ -379,7 +404,7 @@ const Login = () => {
 };
 ```
 
-## Páginas Dinâmicas - useParams
+## Páginas Dinâmicas - useParams <a name="useparams"></a>
 
 Páginas dinâmicas precisam de um id para serem chamadas, ou seja, se você tem uma página "/produto", mas q seja dinamica de acordo com cada produto, a rota será: "/produto/notebook", por exemplo.
 
@@ -412,7 +437,7 @@ const Produto = () => {
 
 Esse valor é usado, principalmente, para fazer um fetch.
 
-## useLocation
+## useLocation <a name="uselocation"></a>
 
 Retorna o objeto location, com diversas informações sobre a rota atual, como o caminho, parâmetros de busca e mais.
 
@@ -432,7 +457,7 @@ const Header = () => {
 };
 ```
 
-## Rotas Aninhadas
+## Rotas Aninhadas <a name="rotas-aninhadas"></a>
 
 Pode-se utilizar rotas dentro de uma pagina que já é uma rota.
 Para isso, a página que voce quer utilizar como a nova gerenciadora de rotas deve ser chamada adicionando um /\* no final do path.
@@ -462,7 +487,7 @@ Exemplo:
 </div>
 ```
 
-## Head
+# Head <a name="head"></a>
 
 Comos não temos acesso ao Head para alterar Nome e Descrição de cada página, criamos uma função que utiliza do JS pra fazer essas alterações.
 
@@ -492,7 +517,7 @@ Agora basta importar o Head em cada pagina que voce queira alterar o titulo e de
   <Head title="Página Sobre" description="Descrição da sobre" />
 ```
 
-## PropTypes
+# PropTypes <a name="proptypes"></a>
 
 No meu padrão de projetos, uso sempre o PropTypes, ele dará consistencia, pois estará definindo um tipo especifico de valor que deve ser recebido em cada prop.
 Uso em todas as páginas que recebem Props.
@@ -525,18 +550,16 @@ Button.defaultProps = {
 };
 ```
 
-## Lazy e Suspense
+# Lazy e Suspense <a name="lazy-suspense"></a>
 
 Em Contrução...
 
-## Memo
+# Memo <a name="memo"></a>
 
 Em Contrução...
 
-## useReducer
+# useReducer <a name="usereducer"></a>
 
 Em Contrução...
 
-## Organização de pastas e Componentes
-
-Em Contrução...
+Fonte: origamid.com
