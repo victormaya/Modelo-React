@@ -263,11 +263,69 @@ export const Container = styled.div`
 `;
 ```
 
-OBS: 
+OBS:
+
 - Estados tambem podem ser passados pois o JS funciona normalmente no SC. Você pode fazer ternarios, por exemplo.
 - Pseudo-elementos sao usados da mesma forma que o css padrão.
 
+# React Router Dom V6 <a name="React Router Dom"></a>
 
+No terminal instale o RRD:
+
+```
+npm install history react-router-dom@6.0.0-beta.0
+```
+
+Em package.json remova o ^ da versao do RRD pois as novas versoes estão bugadas.
+
+Em "./src/App.js" importe BrowserRouter, Routes e Route, criando a seguinte estrutura:
+
+```
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+```
+
+- BrowserRouter: componente pai que envolve tudo que depender do react-router;
+- Routes: área em que vamos colocar os nossos Route;
+- Route: recebe um caminho em path.
+
+Como exemplo de rota, utilizarei as paginas Home, Contato e 404.
+Para colocalas em rota, basta importa-las e atribuilas a propriedade "element" e designando-as seu respectivo path. Exemplo:
+
+```
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Contato from './Contato';
+import Sobre from './Sobre';
+import Home from './Home';
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Pagina404 />} />
+        <Route path="contato" element={<Contato />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+```
+
+- "/" é o caminho inicial de um site, ou seja, nele geralmente fica a Home;
+- os demais elementos podem ter seus proprios nomes como path;
+- o \* é atribuido a 404 pois ele é chamado quando chama alguma rota que nao existe dentro de Routes.
+
+Por fim, basta apenas ir atribuindo novas paginas ao RouterDom.
+OBS: Header e Footers que sempre se repetem, podem ser colocados dentro de BrowserRouter mas fora de Routes.
 
 # Getting Started with Create React App
 
