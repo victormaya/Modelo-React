@@ -327,73 +327,103 @@ const App = () => {
 Por fim, basta apenas ir atribuindo novas paginas ao RouterDom.
 OBS: Header e Footers que sempre se repetem, podem ser colocados dentro de BrowserRouter mas fora de Routes.
 
-# Getting Started with Create React App
+## Link
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Para navegar entre páginas utilize o Link. Para importá-lo:
 
-## Available Scripts
+```
+import { Link } from 'react-router-dom';
+```
 
-In the project directory, you can run:
+Exemplo de uso:
 
-### `yarn start`
+```
+<nav>
+  <Link to="/">Home</Link>
+  <Link to="sobre">Sobre</Link>
+  <Link to="contato">Contato</Link>
+</nav>
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Para menus de navegação, como existem em Headers, é recomendada a utilização do "NavLink", pois ele adiciona a classe "active" ao botão referente a página atual, assim voce pode estilizar o botão ativo mais facilmente. Para importá-lo:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+import { NavLink } from 'react-router-dom';
+```
 
-### `yarn test`
+Ao utilizar o NavLink para ir para "/" adicione a propriedade end, pois todos os caminhos tem "/" (exemplo: "/sobre"), adicionando o end, ele reconhecerá apenas a pagina "/" propriamente dita.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## useNavigate
 
-### `yarn build`
+Para fazer navegação que nao seja por meio de uma tag "a", e sim por função, utilize o useNavigate.
+Exemplo de utilização:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+import { useNavigate } from 'react-router-dom';
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const Login = () => {
+  const navigate = useNavigate();
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  function handleClick() {
+    console.log('Faz o login');
+    navigate('/sobre');
+  }
 
-### `yarn eject`
+  return (
+    <div>
+      <button onClick={handleClick}>Login</button>
+    </div>
+  );
+};
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+##Páginas Dinâmicas
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Páginas dinâmicas precisam de um id para serem chamadas, ou seja, se você tem uma página "/produto", mas q seja dinamica de acordo com cada produto, a rota será: "/produto/notebook", por exemplo.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+O route desta página tem que ser escrito da seguinte maneira:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+<Route path="produto/:id" element={<Contato />}
+```
 
-## Learn More
+obs: essa string "id" pode ser qualquer outra, ela apenas será o nome da variavel criada para armazenar o valor digitado na rota. Neste caso a variavel sera id e o valor será notebook.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Neste caso, a página produto, sem id, não existe. A opção seria criar uma rota somente para produto.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Dentro da página, para ter acesso ao id passado na url, notebook, por exemplo, usa-se o Hook useParams. Para usá-lo:
 
-### Code Splitting
+```
+import { useParams } from 'react-router-dom';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const Produto = () => {
+  const params = useParams();
 
-### Analyzing the Bundle Size
+  return (
+    <div>
+      <h1>Produto</h1>
+      <p>id: {params.id}</p>
+    </div>
+  );
+};
+```
+Esse valor é usado, principalmente, para fazer um fetch.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+##useLocation
+Retorna o objeto location, com diversas informações sobre a rota atual, como o caminho, parâmetros de busca e mais.
 
-### Making a Progressive Web App
+```
+import { useLocation } from 'react-router-dom';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+const Header = () => {
+  const location = useLocation();
 
-### Advanced Configuration
+  React.useEffect(() => {
+    const search = new URLSearchParams(location.search);
+    console.log(search.get('q'));
+    console.log('Toda vez que a rota mudar');
+  }, [location]);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  return <div></div>;
+};
+```
