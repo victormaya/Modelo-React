@@ -14,12 +14,6 @@
 - [Lazy e Suspense](#lazy-suspense)
 - [Memo](#memo)
 - [useReducer](#usereducer)
-<br>
-<br>
-<br>
----
-<br>
-<br>
 
 # Configurando o Ambiente <a name="configurando-ambiente"></a>
 
