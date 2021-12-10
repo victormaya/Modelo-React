@@ -9,6 +9,18 @@
   - [Páginas Dinâmicas - useParams](#useparams)
   - [useLocation](#uselocation)
   - [Rotas Aninhadas](#rotas-aninhadas)
+- [Formulários](#formularios)
+  - [Input](#input)
+  - [Textarea](#textarea)
+  - [Select](#select)
+  - [Radio](#radio)
+  - [Checkbox](#checkbox)
+  - [Componentes Input](#componentes-input)
+  - [Componentes Select](#componentes-select)
+  - [Componentes Radio](#componentes-radio)
+  - [Componentes Checkbox](#componentes-checkbox)
+  - [Validação](#validacao)
+  - [useForm](#useForm)
 - [Head](#head)
 - [PropTypes](#proptypes)
 - [Lazy e Suspense](#lazy-suspense)
@@ -479,6 +491,76 @@ Exemplo:
     <Route path="customizado" element={<ProdutoCustomizado />} />
   </Routes>
 </div>
+```
+
+# Formulários <a name="formularios"></a>
+
+O form tem que ter o onSubmit com uma função que será a de ação do formulário, como enviar. Terá que ter um button com função nenhuma, apenas button. E dentro da função do onSubmit sempre tem que ter um preventDefault.
+Exemplo:
+
+```
+<form onSubmit={handleSubmit}>
+  ...
+  <button>Enviar</button>
+</form>
+```
+
+```
+function handleSubmit(event) {
+    event.preventDefault();
+}
+```
+
+OBS: O onSubmit fará com que o button e o "enter" funcione como disparo da ação do formulário.
+
+## Input <a name="input"></a>
+
+Propriedades importantes:
+
+- value: propriedade onde deve estar atribuído o estado.
+- onChange: evento que tem callback de atualização do estado.
+
+Todo input pode ter um label. Para referenciar o label ao input basta que o htmlFor do label seja igual ao id do input.
+Exemplo:
+
+```
+<label htmlFor="nome">Nome</label>
+<input
+  type="text"
+  id="nome"
+  value={nome}
+  onChange={(event) => setNome(event.target.value)}
+/>
+```
+
+A forma como eu lido com os valores do formulario é apenas com um state contendo um objeto.
+Exemplo do state:
+
+```
+const [form, setForm] = React.useState({
+  nome: '',
+  email: '',
+});
+```
+
+onde a função de mudança é:
+
+```
+function handleChange({ target }) {
+  const { id, value } = target;
+  setForm({ ...form, [id]: value });
+}
+```
+Neste caso usamos a propriedade do input "id" para poder ser a chave dele no objeto.
+E o value do input sera form.id, exemplo:
+
+```
+<input
+  type="email"
+  id="email"
+  value={form.email}
+  onChange={handleChange}
+/>
 ```
 
 # Head <a name="head"></a>
