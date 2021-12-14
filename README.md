@@ -11,7 +11,6 @@
   - [Rotas Aninhadas](#rotas-aninhadas)
 - [Formulários](#formularios)
   - [Input](#input)
-  - [Textarea](#textarea)
   - [Select](#select)
   - [Radio](#radio)
   - [Checkbox](#checkbox)
@@ -551,6 +550,7 @@ function handleChange({ target }) {
   setForm({ ...form, [id]: value });
 }
 ```
+
 Neste caso usamos a propriedade do input "id" para poder ser a chave dele no objeto.
 E o value do input sera form.id, exemplo:
 
@@ -561,6 +561,117 @@ E o value do input sera form.id, exemplo:
   value={form.email}
   onChange={handleChange}
 />
+```
+
+OBS: Textarea funciona da mesma forma do input. Ela tem além a propriedade "rows" que sao os totais de linhas, isso faz você dimensionar a altura da area em quantidade de linhas.
+
+## Select <a name='select'></a>
+
+O Select funciona da mesma forma do input, porem dentro da sua tag tem as opções a mserem selecionadas.
+O value e o onChange ficam na tag select.
+
+```
+<select value={select} onChange={({ target }) => setSelect(target.value)}>
+  <option value="notebook">Notebook</option>
+  <option value="smartphone">Smartphone</option>
+  <option value="tablet">Tablet</option>
+</select>
+```
+
+Para ter um valor que nao pode ser escolhido e que serve so para indicar a ação do select, voce pode criar um "option" com a propriedade "disable" e com value vazio(""):
+
+```
+<option value="" disabled>
+  Selecione
+</option>
+```
+
+## Radio <a name='radio'></a>
+
+Radio é um tipo de input de escolha única.
+O que importa no radio é saber se ele está checado ou não.
+Ele fica dentro do Label, então nao é necessario o htmlFor, nem o id no input.
+Para um conjunto de Radio's você pode dar o mesmo name pra todos, assim ele atribuirá a marcação ao elemento clicado, se não, ele poderá marcar todos.
+Exemplo: name='produto'.
+A propriedade checked é usada somente quando não é usada a propriedade name e serve para verificar se radio está com o valor igual ao do estado, se sim, ele será marcado.
+
+Exemplo com name:
+
+```
+<label>
+  <input
+    type="radio"
+    name="produto"
+    value="notebook"
+    onChange={handleChange}
+  />
+  Notebook
+</label>
+```
+
+Exemplo com checked:
+
+```
+<label>
+  <input
+    type="radio"
+    checked={radio === 'notebook'}
+    value="notebook"
+    onChange={handleChange}
+  />
+  Notebook
+</label>
+```
+
+## Checkbox <a name='checkbox'></a>
+
+Checkbox é um input de unica ou multipla escolha.
+Ele é melhor utilizado dentro do label, assim como Radio.
+Ele deve conter um state onde verificará se está checado ou não.
+
+Exemplo de checkbox de uma unica escolha:
+
+```
+<form>
+  <label>
+    <input type="checkbox" value="Termos" checked={termos} onChange={({target}) => setTermos(target.checked)}>
+    Aceito os termos.
+  </label>
+</form>
+```
+
+No Checkbox de multipla escolha, é usado um array no estado para definir o check de todos os checkboxs.
+
+```
+const [produtos, setProdutos] = React.useState([])
+```
+
+Primeiro temos que criar uma função que será chamada ao clicar em todos os checkboxes:
+
+```
+function handleChange({target}){
+  if(target.checked){
+    setProdutos([...produtos, target.value])
+  }else{
+    setProdutos(produtos.filter((produto)=>{
+      return produto !== target.value
+    }))
+  }
+
+}
+```
+
+No checked tem-se que verificar se o valor esta incluido na array:
+
+```
+<label>
+  <input type="checkbox" value="notebook" checked={produtos.includes('notebook')} onChange={handleClick}>
+  Notebook
+</label>
+<label>
+  <input type="checkbox" value="smartphone" checked={produtos.includes('smartphone')} onChange={handleClick}>
+  smartphone
+</label>
 ```
 
 # Head <a name="head"></a>
