@@ -1,4 +1,5 @@
 import React from 'react';
+import Checkbox from './Components/Form/Checkbox';
 import Input from './Components/Form/Input';
 import Radio from './Components/Form/Radio';
 import Select from './Components/Form/Select';
@@ -11,10 +12,19 @@ function Form() {
 
   const [cor, setCor] = React.useState('');
 
+  const [linguagens, setLinguagens] = React.useState([]);
+
   return (
     <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
-      <Input id='nome' label='Nome' value={nome} setValue={setNome} />
       <Input
+        type='text'
+        id='nome'
+        label='Nome'
+        value={nome}
+        setValue={setNome}
+      />
+      <Input
+        type='email'
         id='email'
         label='Email'
         value={email}
@@ -30,6 +40,11 @@ function Form() {
         options={['Azul', 'Vermelho', 'Amarelo']}
         value={cor}
         setValue={setCor}
+      />
+      <Checkbox
+        options={['JavaScript', 'PHP', 'Ruby']}
+        value={linguagens}
+        setValue={setLinguagens}
       />
       <button>Enviar</button>
     </form>

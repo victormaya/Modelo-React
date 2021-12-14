@@ -684,12 +684,12 @@ Código do Input:
 ```
 import React from 'react';
 
-function Input({ id, label, value, setValue, required, ...props }) {
+function Input({ id, type, label, value, setValue, required, ...props }) {
   return (
     <>
       <label htmlFor={id}>{label}</label>
       <input
-        type='text'
+        type={type}
         id={id}
         name={id}
         value={value}
@@ -717,8 +717,9 @@ function Form() {
 
   return (
     <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
-      <Input id='nome' label='Nome' value={nome} setValue={setNome} />
+      <Input type='text' id='nome' label='Nome' value={nome} setValue={setNome} />
       <Input
+        type='email'
         id='email'
         label='Email'
         value={email}
@@ -889,6 +890,113 @@ function Form() {
 
 export default Form;
 
+
+```
+
+# Componentes Checkbox <a name="componentes-checkbox"></a>
+
+Neste sessão iremos implementar um input checkbox.
+Neste modelo terá esses componentes já criados.
+
+Código do Checkbox:
+
+```
+import React from 'react';
+
+function Checkbox({ options, value, setValue, ...props }) {
+  function handleChange({ target }) {
+    if (target.checked) {
+      setValue([...value, target.value]);
+    } else {
+      setValue(
+        value.filter((itemValue) => {
+          return itemValue !== target.value;
+        })
+      );
+    }
+  }
+
+  return (
+    <>
+      {options.map((option) => {
+        return (
+          <label key={option}>
+            <input
+              type='checkbox'
+              value={option}
+              onChange={handleChange}
+              checked={value.includes(option)}
+              {...props}
+            />
+            {option}
+          </label>
+        );
+      })}
+    </>
+  );
+}
+
+export default Checkbox;
+
+```
+
+Código da página do formulário:
+
+```
+import React from 'react';
+import Checkbox from './Components/Form/Checkbox';
+import Input from './Components/Form/Input';
+import Radio from './Components/Form/Radio';
+import Select from './Components/Form/Select';
+
+function Form() {
+  const [nome, setNome] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  const [produto, setProduto] = React.useState('');
+
+  const [cor, setCor] = React.useState('');
+
+  const [linguagens, setLinguagens] = React.useState([]);
+
+  return (
+    <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
+      <Input
+        type='text'
+        id='nome'
+        label='Nome'
+        value={nome}
+        setValue={setNome}
+      />
+      <Input
+        type='email'
+        id='email'
+        label='Email'
+        value={email}
+        setValue={setEmail}
+        required
+      />
+      <Select
+        options={['smartphone', 'tablet', 'notebook']}
+        value={produto}
+        setValue={setProduto}
+      />
+      <Radio
+        options={['Azul', 'Vermelho', 'Amarelo']}
+        value={cor}
+        setValue={setCor}
+      />
+      <Checkbox
+        options={['JavaScript', 'PHP', 'Ruby']}
+        value={linguagens}
+        setValue={setLinguagens}
+      />
+      <button>Enviar</button>
+    </form>
+  );
+}
+
+export default Form;
 
 ```
 
