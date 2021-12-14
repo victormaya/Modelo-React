@@ -4,6 +4,7 @@ import Contato from './Contato';
 import Page404 from './404';
 import Home from './Home';
 import Header from './Header';
+import Form from './Form';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='*' element={<Page404 />} />
         <Route path='contato' element={<Contato />} />
+        <Route path='form' element={<Form />} />
       </Routes>
     </BrowserRouter>
   );

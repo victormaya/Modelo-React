@@ -674,6 +674,140 @@ No checked tem-se que verificar se o valor esta incluido na array:
 </label>
 ```
 
+# Componentes Input <a name="componentes-input"></a>
+
+Neste sessão iremos implementar um input que funcionará pros types relacionados ao text e number, ou seja, inclui password, email, etc.
+Neste modelo terá esses componentes já criados.
+
+Código do Input:
+
+```
+import React from 'react';
+
+function Input({ id, label, value, setValue, required, ...props }) {
+  return (
+    <>
+      <label htmlFor={id}>{label}</label>
+      <input
+        type='text'
+        id={id}
+        name={id}
+        value={value}
+        onChange={({ target }) => setValue(target.value)}
+        required={required}
+        {...props}
+      />
+    </>
+  );
+}
+
+export default Input;
+
+```
+
+Código da página do formulário:
+
+```
+import React from 'react';
+import Input from './Components/Form/Input';
+
+function Form() {
+  const [nome, setNome] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  return (
+    <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
+      <Input id='nome' label='Nome' value={nome} setValue={setNome} />
+      <Input
+        id='email'
+        label='Email'
+        value={email}
+        setValue={setEmail}
+        required
+      />
+      <button>Enviar</button>
+    </form>
+  );
+}
+
+export default Form;
+```
+
+# Componentes Select <a name="componentes-select"></a>
+
+Neste sessão iremos implementar um input select.
+Neste modelo terá esses componentes já criados.
+
+Código do Select:
+
+```
+import React from 'react';
+
+function Select({ options, value, setValue, ...props }) {
+  return (
+    <>
+      <select
+        value={value}
+        onChange={({ target }) => setValue(target.value)}
+        {...props}
+      >
+        <option value='' disabled>
+          Selecione
+        </option>
+        {options.map((option) => {
+          return (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+    </>
+  );
+}
+
+export default Select;
+
+```
+
+Código da página do formulário:
+
+```
+import React from 'react';
+import Input from './Components/Form/Input';
+import Select from './Components/Form/Select';
+
+function Form() {
+  const [nome, setNome] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  const [produto, setProduto] = React.useState('');
+
+  return (
+    <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
+      <Input id='nome' label='Nome' value={nome} setValue={setNome} />
+      <Input
+        id='email'
+        label='Email'
+        value={email}
+        setValue={setEmail}
+        required
+      />
+      {/* Select */}
+      <Select
+        options={['smartphone', 'tablet', 'notebook']}
+        value={produto}
+        setValue={setProduto}
+      />
+      <button>Enviar</button>
+    </form>
+  );
+}
+
+export default Form;
+
+```
+
 # Head <a name="head"></a>
 
 Comos não temos acesso ao Head para alterar Nome e Descrição de cada página, criamos uma função que utiliza do JS pra fazer essas alterações.

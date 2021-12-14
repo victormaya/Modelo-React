@@ -9,6 +9,7 @@ function Header() {
         Home
       </NavLink>
       <NavLink to='contato'>Contato</NavLink>
+      <NavLink to='form'>Formulário</NavLink>
     </nav>
   );
 }
