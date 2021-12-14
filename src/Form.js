@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from './Components/Form/Input';
+import Radio from './Components/Form/Radio';
 import Select from './Components/Form/Select';
 
 function Form() {
@@ -7,6 +8,8 @@ function Form() {
   const [email, setEmail] = React.useState('');
 
   const [produto, setProduto] = React.useState('');
+
+  const [cor, setCor] = React.useState('');
 
   return (
     <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
@@ -18,11 +21,15 @@ function Form() {
         setValue={setEmail}
         required
       />
-      {/* Select */}
       <Select
         options={['smartphone', 'tablet', 'notebook']}
         value={produto}
         setValue={setProduto}
+      />
+      <Radio
+        options={['Azul', 'Vermelho', 'Amarelo']}
+        value={cor}
+        setValue={setCor}
       />
       <button>Enviar</button>
     </form>

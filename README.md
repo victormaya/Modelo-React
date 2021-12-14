@@ -808,6 +808,90 @@ export default Form;
 
 ```
 
+# Componentes Radio <a name="componentes-radio"></a>
+
+Neste sessão iremos implementar um input radio.
+Neste modelo terá esses componentes já criados.
+
+Código do Radio:
+
+```
+import React from 'react';
+
+function Radio({ options, value, setValue, ...props }) {
+  return (
+    <>
+      {options.map((option) => {
+        return (
+          <label key={option}>
+            <input
+              type='radio'
+              value={option}
+              checked={value === option}
+              onChange={({ target }) => {
+                setValue(target.value);
+              }}
+              {...props}
+            />
+            {option}
+          </label>
+        );
+      })}
+    </>
+  );
+}
+
+export default Radio;
+
+
+```
+
+Código da página do formulário:
+
+```
+import React from 'react';
+import Input from './Components/Form/Input';
+import Radio from './Components/Form/Radio';
+import Select from './Components/Form/Select';
+
+function Form() {
+  const [nome, setNome] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  const [produto, setProduto] = React.useState('');
+
+  const [cor, setCor] = React.useState('');
+
+  return (
+    <form style={{ padding: '5rem', fontSize: '1.5rem' }}>
+      <Input id='nome' label='Nome' value={nome} setValue={setNome} />
+      <Input
+        id='email'
+        label='Email'
+        value={email}
+        setValue={setEmail}
+        required
+      />
+      <Select
+        options={['smartphone', 'tablet', 'notebook']}
+        value={produto}
+        setValue={setProduto}
+      />
+      <Radio
+        options={['Azul', 'Vermelho', 'Amarelo']}
+        value={cor}
+        setValue={setCor}
+      />
+      <button>Enviar</button>
+    </form>
+  );
+}
+
+export default Form;
+
+
+```
+
 # Head <a name="head"></a>
 
 Comos não temos acesso ao Head para alterar Nome e Descrição de cada página, criamos uma função que utiliza do JS pra fazer essas alterações.
