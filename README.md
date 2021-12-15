@@ -1306,6 +1306,8 @@ export default Form;
 
 ```
 
+- OBS: o onBlur é uma função que é chamada sempre que o se clica fora da caixa de input, ou seja assim q o usuario digitar no input A e passar para o input B, ja irá verificar o A.
+
 # Head <a name="head"></a>
 
 Comos não temos acesso ao Head para alterar Nome e Descrição de cada página, criamos uma função que utiliza do JS pra fazer essas alterações.
