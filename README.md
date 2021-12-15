@@ -18,8 +18,7 @@
   - [Componentes Select](#componentes-select)
   - [Componentes Radio](#componentes-radio)
   - [Componentes Checkbox](#componentes-checkbox)
-  - [Validação](#validacao)
-  - [useForm](#useForm)
+  - [useForm](#useform)
 - [Head](#head)
 - [PropTypes](#proptypes)
 - [Lazy e Suspense](#lazy-suspense)
@@ -991,6 +990,313 @@ function Form() {
         value={linguagens}
         setValue={setLinguagens}
       />
+      <button>Enviar</button>
+    </form>
+  );
+}
+
+export default Form;
+
+```
+
+# useForm <a name="useform"></a>
+
+Custom hook para validação de formulários(Somente inputs). Neste caso faremos para validar cep, email e senha. Mais tipos de validações podem ser incrementadas no futuro.
+
+Criamos uma pasta de hooks e dentro o useForm.js
+
+No código implementamos o value e o error como estados:
+
+```
+const [value, setValue] = React.useState('');
+const [error, setError] = React.useState(null);
+```
+
+a função de validação que usa regex(validate):
+
+```
+function validate(value) {
+  if (type === false) return true;
+  if (value.length === 0) {
+    setError('Preencha um valor.');
+    return false;
+  } else if (types[type] && !types[type].regex.test(value)) {
+    setError(types[type].message);
+    return false;
+  } else {
+    setError(null);
+    return true;
+  }
+}
+```
+
+o onChange para alterar o valor ao digitar:
+
+```
+function onChange({ target }) {
+  if (error) validate(target.value);
+  setValue(target.value);
+}
+```
+
+fora da função definimos objeto para cada tipo de validação, com seu regex e sua mensagem de erro. Exemplo:
+
+```
+const types = {
+  cep: {
+    regex: /^\d{5}-?\d{3}$/,
+    message: 'Cep inválido.',
+  },
+  email: {
+    regex:
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    message: 'Email inválido.',
+  },
+};
+```
+
+Como retorno colocamos as variaveis e funções que queremos ter acesso em outro lugar:
+
+```
+return {
+  value,
+  setValue,
+  error,
+  onChange,
+  onBlur: () => {
+    validate(value);
+  },
+  validate: () => validate(value),
+};
+```
+
+Código final de useForm.js:
+
+```
+import React from 'react';
+
+const types = {
+  cep: {
+    regex: /^\d{5}-?\d{3}$/,
+    message: 'Cep inválido.',
+  },
+  email: {
+    regex:
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    message: 'Email inválido.',
+  },
+};
+
+function useForm(type) {
+  const [value, setValue] = React.useState('');
+  const [error, setError] = React.useState(null);
+
+  function validate(value) {
+    if (type === false) return true;
+    if (value.length === 0) {
+      setError('Preencha um valor.');
+      return false;
+    } else if (types[type] && !types[type].regex.test(value)) {
+      setError(types[type].message);
+      return false;
+    } else {
+      setError(null);
+      return true;
+    }
+  }
+
+  function onChange({ target }) {
+    if (error) validate(target.value);
+    setValue(target.value);
+  }
+
+  return {
+    value,
+    setValue,
+    error,
+    onChange,
+    onBlur: () => {
+      validate(value);
+    },
+    validate: () => validate(value),
+  };
+}
+
+export default useForm;
+
+```
+
+No componente Input.js, para evitar erros ao passar valores q nao sao propriedades do input por meio da props, removemos ela de dentro do input e especificamos cada elemento que desejamos utilizar nele, ficando assim:
+
+```
+import React from 'react';
+
+function Input({
+  id,
+  label,
+  onChange,
+  value,
+  type,
+  onBlur,
+  placeHolder,
+  error,
+  required,
+}) {
+  console.log(error);
+  return (
+    <>
+      <label htmlFor={id}>{label}</label>
+      <input
+        id={id}
+        name={id}
+        onChange={onChange}
+        required={required}
+        placeholder={placeHolder}
+        onBlur={onBlur}
+        type={type}
+        value={value}
+      />
+      {error && <p>{error}</p>}
+    </>
+  );
+}
+
+export default Input;
+
+```
+
+Em form.js criamos uma função handleSubmit que fará a verificação novamente dos dados ante de finalizar o processo do formulario ou alertar erro.
+
+```
+function handleSubmit(event) {
+  event.preventDefault();
+  if (
+    cep.validate() &&
+    email.validate() &&
+    nome.validate() &&
+    sobrenome.validate()
+  ) {
+    console.log('enviar'); // ação de envio, provavelmente um fetch
+  } else {
+    console.log(' nao enviar'); // ação de nao envio
+  }
+}
+```
+
+Para usarmos o Hook criado é a seguinte sintaxe:
+
+```
+const cep = useForm('cep');
+const email = useForm('email');
+const nome = useForm(); //quando é um text obrigatorio
+const sobrenome = useForm(false); // quando nao é obrigatorio
+```
+
+Deixa vazio quando é um elemento obrigatorio e quando não é um elemento obrigatorio, coloque-o como false.
+Os inputs ficarão assim:
+
+```
+<Input label='CEP' id='cep' type='text' placeholder='00000-000' {...cep} />
+<Input label='Email' id='email' type='email' {...email} />
+<Input label='Nome' id='nome' type='text' {...nome} />
+<Input label='Sobrenome' id='sobrenome' type='text' {...sobrenome} />
+```
+
+Código final de Form.js:
+
+```
+import React from 'react';
+import Checkbox from './Components/Form/Checkbox';
+import Input from './Components/Form/Input';
+import Radio from './Components/Form/Radio';
+import Select from './Components/Form/Select';
+import useForm from './Hooks/useForm';
+
+function Form() {
+  // const [nome, setNome] = React.useState('');
+  // const [email, setEmail] = React.useState('');
+
+  const [produto, setProduto] = React.useState('');
+
+  const [cor, setCor] = React.useState('');
+
+  const [linguagens, setLinguagens] = React.useState([]);
+
+  const cep = useForm('cep');
+  const email = useForm('email');
+  const nome = useForm(); //quando é um text obrigatorio
+  const sobrenome = useForm(false); // quando nao é obrigatorio
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (
+      cep.validate() &&
+      email.validate() &&
+      nome.validate() &&
+      sobrenome.validate()
+    ) {
+      console.log('enviar'); // ação de envio, provavelmente um fetch
+    } else {
+      console.log(' nao enviar'); // ação de nao envio
+    }
+  }
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        padding: '5rem',
+        fontSize: '1.5rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+        width: '50vw',
+        margin: '0 auto',
+      }}
+    >
+      {/* <Input
+        type='text'
+        id='nome'
+        label='Nome'
+        value={nome}
+        setValue={setNome}
+      />
+      <Input
+        type='email'
+        id='email'
+        label='Email'
+        value={email}
+        setValue={setEmail}
+        required
+      />
+      <Select
+        options={['smartphone', 'tablet', 'notebook']}
+        value={produto}
+        setValue={setProduto}
+      />
+      <Radio
+        options={['Azul', 'Vermelho', 'Amarelo']}
+        value={cor}
+        setValue={setCor}
+      />
+      <Checkbox
+        options={['JavaScript', 'PHP', 'Ruby']}
+        value={linguagens}
+        setValue={setLinguagens}
+      /> */}
+
+      {/* uso do useForm */}
+      <Input
+        label='CEP'
+        id='cep'
+        type='text'
+        placeholder='00000-000'
+        {...cep}
+      />
+      <Input label='Email' id='email' type='email' {...email} />
+      <Input label='Nome' id='nome' type='text' {...nome} />
+      <Input label='Sobrenome' id='sobrenome' type='text' {...sobrenome} />
+
       <button>Enviar</button>
     </form>
   );
