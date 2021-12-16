@@ -19,6 +19,13 @@
   - [Componentes Radio](#componentes-radio)
   - [Componentes Checkbox](#componentes-checkbox)
   - [useForm](#useform)
+- [Hooks](#hooks)
+  - [useRef](#useref)
+  - [useMemo](#usememo)
+  - [useCallback](#usecallback)
+  - [useContext](#usecontext)
+  - [Custom Hooks](#customhooks)
+  - [Regas](#regras)
 - [Head](#head)
 - [PropTypes](#proptypes)
 - [Lazy e Suspense](#lazy-suspense)
@@ -1307,6 +1314,39 @@ export default Form;
 ```
 
 - OBS: o onBlur é uma função que é chamada sempre que o se clica fora da caixa de input, ou seja assim q o usuario digitar no input A e passar para o input B, ja irá verificar o A.
+- [Hooks](#hooks)
+  - [useRef](#useref)
+  - [useMemo](#usememo)
+  - [useCallback](#usecallback)
+  - [useContext](#usecontext)
+  - [Custom Hooks](#customhooks)
+  - [Regas](#regras)
+
+# Hooks <a name="hooks"></a>
+
+## useRef <a name="useref"></a>
+
+Em construção...
+
+## useMemo <a name="useMemo"></a>
+
+Em construção...
+
+## useCallback <a name="usecallback"></a>
+
+Em construção...
+
+## useContext <a name="usecontext"></a>
+
+Em construção...
+
+## Custom Hooks <a name="customhooks"></a>
+
+Em construção...
+
+## Regras <a name="regras"></a>
+
+Em construção...
 
 # Head <a name="head"></a>
 
