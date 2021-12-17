@@ -9,6 +9,7 @@
   - [Páginas Dinâmicas - useParams](#useparams)
   - [useLocation](#uselocation)
   - [Rotas Aninhadas](#rotas-aninhadas)
+  - [Rota Protegida](#rota-protegida)
 - [Formulários](#formularios)
   - [Input](#input)
   - [Select](#select)
@@ -497,6 +498,69 @@ Exemplo:
   </Routes>
 </div>
 ```
+
+## Rota Protegida <a name="rota-protegida"></a>
+
+Rotas protegidas são rotas que só são acessadas após uma verificação, por exemplo, a conta de um usuário só pode ser acessada caso ele esteja logado, assim, a rota de conta deve estar protegida.
+
+Não irei levar em consideração aqui o contexto que você irá utilizar para verificar se o usuário está logado ou não.
+Criarei apenas uma variavel de exemplo, um const login, que sera true ou false para fazer o teste da rota protegida.
+
+Primeiro, em App.js, criei uma rota chamada conta, ficando assim:
+
+```
+<Route path='conta' element={<Conta />} />
+```
+
+Depois criei a página "Conta.js" que será acessada somente se o usuario tiver login true.
+
+Para preenchela genericamente apenas usei o seguinte código:
+
+```
+import React from 'react';
+
+function Conta() {
+  return <div>Minha conta</div>;
+}
+
+export default Conta;
+
+```
+
+Dentro de "src" criei uma pasta helpers, que dentro terá o componente que irá proteger a pagina Conta.
+Criei o componente nomeando-o de "ProtectedRoute.js"
+Dentro dele, implementei o seguinte código colocando a cont login como true, mas você pode alterar para false dependendo dos seus testes.
+No return verifiquei se o login esta true, se sim, ele redirecionará para o children que sera a pagina a ser protegida, caso contrário, será levada para outra pagina, no caso a home.
+
+```
+import React from 'react';
+import { Navigate } from 'react-router';
+
+function ProtectedRoute({ children }) {
+  const login = true;
+  return login ? children : <Navigate to='/' />;
+}
+
+export default ProtectedRoute;
+
+```
+
+Voltando para App.js, importei o ProtectedRoute, e fiz as seguintes alterações na rota de conta:
+
+```
+<Route
+  path='conta'
+  element={
+    <ProtectedRoute>
+      <Conta />
+    </ProtectedRoute>
+  }
+/>
+```
+
+Como podemos ver, o ProtectedRoute envolve a Conta, ou seja, conta é passada como children para ProtectedRoute, assim será usada na verificação.
+
+Por fim, faça os testes com a variavel login true e false, e entre na rota conta, e verá que quando login for true, voce acessará a rota ed conta, e quando for false, voce será levado para a home.
 
 # Formulários <a name="formularios"></a>
 
