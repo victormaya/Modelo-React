@@ -1,6 +1,9 @@
 # Sumário
 
 - [Configurando o Ambiente](#configurando-ambiente)
+  - [EditorConfig](#editorconfig)
+  - [Prettier](#prettier)
+  - [Eslint](#eslint)
   - [Organização de pastas e Componentes](#organizacao)
 - [Styled-Components](#styled-components)
 - [React Router Dom V6](#react-router-dom-v6)
@@ -230,6 +233,98 @@ Para ter a interface mais limpa crio uma pasta '.vscode' na raíz do projeto, e 
 }
 
 ```
+
+## EditorConfig <a name="editorconfig"></a>
+
+Instale a extensão para o VSCode chamada EditorConfig.
+Clique com botao direito do mouse na raíz do projeto e clique na opção generate .editorconnfig.
+
+Ao abrir, o arquivo criado deve ter a seguinte configuação:
+
+```
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+```
+
+Reinicie o VSCode.
+
+## Prettier <a name="prettier"></a>
+
+Na raíz do projeto crie um arquivo chamado ".prettierrc.js".
+Ao abrir, o arquivo criado deve ter a seguinte configuração:
+
+```
+module.exports = {
+  semi: true,
+  trailingComma: 'all',
+  singleQuote: true,
+  printWidth: 120,
+  tabWidth: 2
+}
+```
+
+## Eslint <a name="eslint"></a>
+
+Na raíz do projeto crie um arquivo chamado ".eslintrc.js".
+Ao abrir, o arquivo criado deve ter a seguinte configuração:
+
+```
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    jest: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:prettier/recommended',
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    sourceType: 'module',
+  },
+  plugins: ['react'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+  },
+};
+```
+
+Por fim, no terminal, dê:
+
+```
+npm i -D prettier eslint-config-prettier eslint-plugin-prettier
+```
+
+OBS: Para forçar de inicio o eslint, execute no terminal:
+
+```
+npx eslint src/**/*.js --fix
+ou
+npx eslint src/**/*.jsx --fix
+```
+Assim ele corrigira o que for possivel e mostrará erros que devem ser corrigidos manualmente.
+
 
 ## Organização de pastas e Componentes <a name="organizacao"></a>
 
