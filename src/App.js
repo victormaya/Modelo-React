@@ -13,12 +13,12 @@ const App = () => {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='*' element={<Page404 />} />
-        <Route path='contato' element={<Contato />} />
-        <Route path='form' element={<Form />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Page404 />} />
+        <Route path="contato" element={<Contato />} />
+        <Route path="form" element={<Form />} />
         <Route
-          path='conta'
+          path="conta"
           element={
             <ProtectedRoute>
               <Conta />

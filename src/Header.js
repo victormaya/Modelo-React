@@ -5,11 +5,11 @@ import './Header.css';
 function Header() {
   return (
     <nav>
-      <NavLink to='/' end>
+      <NavLink to="/" end>
         Home
       </NavLink>
-      <NavLink to='contato'>Contato</NavLink>
-      <NavLink to='form'>Formulário</NavLink>
+      <NavLink to="contato">Contato</NavLink>
+      <NavLink to="form">Formulário</NavLink>
     </nav>
   );
 }

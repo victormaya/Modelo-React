@@ -1,16 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
-function Input({
-  id,
-  label,
-  onChange,
-  value,
-  type,
-  onBlur,
-  placeHolder,
-  error,
-  required,
-}) {
+function Input({ id, label, onChange, value, type, onBlur, placeHolder, error, required }) {
   console.log(error);
   return (
     <>

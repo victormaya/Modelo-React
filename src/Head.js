@@ -1,11 +1,10 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 function Head(props) {
   React.useEffect(() => {
-    document.title = "Modelo | " + props.title;
-    document
-      .querySelector("meta[name='description']")
-      .setAttribute('content', props.description);
+    document.title = 'Modelo | ' + props.title;
+    document.querySelector("meta[name='description']").setAttribute('content', props.description);
   }, [props]);
   return <></>;
 }

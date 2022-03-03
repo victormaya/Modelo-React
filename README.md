@@ -6,6 +6,7 @@
   - [Eslint](#eslint)
   - [Organização de pastas e Componentes](#organizacao)
 - [Styled-Components](#styled-components)
+  - [Theme Provider](#themeprovider)
 - [React Router Dom V6](#react-router-dom-v6)
   - [Link](#link)
   - [useNavigate](#usenavigate)
@@ -323,8 +324,8 @@ npx eslint src/**/*.js --fix
 ou
 npx eslint src/**/*.jsx --fix
 ```
-Assim ele corrigira o que for possivel e mostrará erros que devem ser corrigidos manualmente.
 
+Assim ele corrigira o que for possivel e mostrará erros que devem ser corrigidos manualmente.
 
 ## Organização de pastas e Componentes <a name="organizacao"></a>
 
@@ -402,12 +403,62 @@ OBS:
 - Estados tambem podem ser passados pois o JS funciona normalmente no SC. Você pode fazer ternarios, por exemplo.
 - Pseudo-elementos sao usados da mesma forma que o css padrão.
 
+## ThemeProvider <a name="themeprovider"></a>
+
+Aqui pode ser feito um tema global para a sua aplicação, usando por exemplos variaveis guardando cores e fontes.
+
+Para criar um tema global, crie um arquivo theme.js, preferencialmente numa pasta de estilos e preencha de maneira semelhante à seguinte:
+
+```
+export const theme = {
+  colors: {
+    mainBg: 'red',
+    secondaryBg: 'blue',
+  },
+  fonts: {},
+  spacings: {},
+};
+```
+
+O tema global preferencialmente deve ser importado no index da aplicação, dentro do strictmode.
+No provider deve-se passar uma propriedade theme com o objeto com o tema criado. Exemplo:
+
+```
+
+import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import ReactDOM from 'react-dom';
+import { theme } from './styles/theme';
+import App from './App';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>,
+  document.getElementById('root'),
+);
+
+```
+
+Dessa forma voce pode capturar essas variaveis por meio de props no codigo do css do styled.
+Exemplo:
+
+```
+export const Container = styled.div`
+  background: ${({theme}) => theme.colors.mainBg}
+`;
+```
+
 # React Router Dom V6 <a name="react-router-dom-v6"></a>
 
 No terminal instale o RRD:
 
 ```
+
 npm install history react-router-dom@6.0.0-beta.0
+
 ```
 
 Em package.json remova o ^ da versao do RRD pois as novas versoes estão bugadas.
@@ -415,17 +466,19 @@ Em package.json remova o ^ da versao do RRD pois as novas versoes estão bugadas
 Em "./src/App.js" importe BrowserRouter, Routes e Route, criando a seguinte estrutura:
 
 ```
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route />
-      </Routes>
-    </BrowserRouter>
-  );
+return (
+<BrowserRouter>
+<Routes>
+<Route />
+</Routes>
+</BrowserRouter>
+);
 };
+
 ```
 
 - BrowserRouter: componente pai que envolve tudo que depender do react-router;
@@ -436,22 +489,24 @@ Como exemplo de rota, utilizarei as paginas Home, Contato e 404.
 Para colocalas em rota, basta importa-las e atribuilas a propriedade "element" e designando-as seu respectivo path. Exemplo:
 
 ```
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Contato from './Contato';
 import Sobre from './Sobre';
 import Home from './Home';
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<Pagina404 />} />
-        <Route path="contato" element={<Contato />} />
-      </Routes>
-    </BrowserRouter>
-  );
+return (
+<BrowserRouter>
+<Routes>
+<Route path="/" element={<Home />} />
+<Route path="\*" element={<Pagina404 />} />
+<Route path="contato" element={<Contato />} />
+</Routes>
+</BrowserRouter>
+);
 };
+
 ```
 
 - "/" é o caminho inicial de um site, ou seja, nele geralmente fica a Home;
@@ -466,12 +521,15 @@ OBS: Header e Footers que sempre se repetem, podem ser colocados dentro de Brows
 Para navegar entre páginas utilize o Link. Para importá-lo:
 
 ```
+
 import { Link } from 'react-router-dom';
+
 ```
 
 Exemplo de uso:
 
 ```
+
 <nav>
   <Link to="/">Home</Link>
   <Link to="sobre">Sobre</Link>
@@ -1583,3 +1641,7 @@ Em Contrução...
 Em Contrução...
 
 Fonte: origamid.com
+
+```
+
+```

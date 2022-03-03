@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 function Radio({ options, value, setValue, ...props }) {
@@ -7,7 +8,7 @@ function Radio({ options, value, setValue, ...props }) {
         return (
           <label key={option}>
             <input
-              type='radio'
+              type="radio"
               value={option}
               checked={value === option}
               onChange={({ target }) => {

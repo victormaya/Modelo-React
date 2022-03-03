@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 function Checkbox({ options, value, setValue, ...props }) {
@@ -8,7 +9,7 @@ function Checkbox({ options, value, setValue, ...props }) {
       setValue(
         value.filter((itemValue) => {
           return itemValue !== target.value;
-        })
+        }),
       );
     }
   }
@@ -18,13 +19,7 @@ function Checkbox({ options, value, setValue, ...props }) {
       {options.map((option) => {
         return (
           <label key={option}>
-            <input
-              type='checkbox'
-              value={option}
-              onChange={handleChange}
-              checked={value.includes(option)}
-              {...props}
-            />
+            <input type="checkbox" value={option} onChange={handleChange} checked={value.includes(option)} {...props} />
             {option}
           </label>
         );
