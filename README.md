@@ -7,6 +7,7 @@
   - [Organização de pastas e Componentes](#organizacao)
 - [Styled-Components](#styled-components)
   - [Theme Provider](#themeprovider)
+- [Storybook](#storybook)
 - [React Router Dom V6](#react-router-dom-v6)
   - [Link](#link)
   - [useNavigate](#usenavigate)
@@ -450,6 +451,134 @@ export const Container = styled.div`
   background: ${({theme}) => theme.colors.mainBg}
 `;
 ```
+
+# Storybook <a name="storybook"></a>
+
+Esta ferramenta permite a criação de componentes individuais sem ser preciso importar em uma pagina. E ajuda a documentar o front-end.
+
+No terminal dê:
+
+```
+npx sb init
+```
+
+OBS: Essa inicialização demora bastante.
+
+Uma pasta chamada 'stories' será criada dentro de src, delete ela.
+
+Na pasta ".storybook", na raíz do projeto, no arquivo "main.js" deve-se configurar o storybook.
+Adicione "../src/\*\*/stories.@(js|jsx|ts|tsx)" aos "stories", assim todos os componentes podem ter seu arquivo para storybook somente com o nome story.
+por Exemplo uma pasta que contem seu index.js, styled.js e stories.js.
+
+Como exemplo criaremso um componente "Heading" que tera em sua pasta um index, styled e story.
+
+Em index.js:
+
+```
+import * as Styled from './styles';
+
+export const Heading = ({ children }) => {
+  return <Styled.Title>{children}</Styled.Title>;
+};
+```
+
+em styled.js:
+
+```
+import styled, { css } from 'styled-components';
+
+export const Title = styled.h1`
+  ${({ theme }) => css`
+    color: ${theme.colors.mainBg};
+  `}
+`;
+```
+
+Agora configuraremos o Story deste componente.
+Crie o arquivo stories.js
+Primeiro importe ele.
+Depois crie um default com o nome do componente e ele proprio. para ser exibido e chamado na pagina do storybook.
+E crie um template q terá argumentos comom propriedades, ou seja, maneiras como o seu componente será exibido de as propriedades que ele pede e como serão preenchidas.
+Exemplo:
+
+```
+import { Heading } from '.';
+
+export default {
+  title: 'Heading',
+  component: Heading,
+};
+
+export const Template = (args) => <Heading {...args} />;
+```
+
+Agora pode iniciar o Storybook
+
+```
+npm run storybook
+```
+
+### Erro 1
+
+Caso dê o seguinte erro:
+Error while loading rule 'prettier/prettier': context.getPhysicalFilename is not a function
+
+solucione adicionando "'prettier/prettier': 0" aos rules do .eslinrc.js
+
+### Erro 2
+
+Provavelmente devido ao provider ocorrerá algum problema com o thema, para solucionar, entre na pasta ".storybook" e no arquivo "preview.js" onde pode-se fazer algumas configurações do storybook.
+Nele criaremos decorators que sao decoradores dos componentes, assim envolveremos o storybook ao Theme Provider.
+
+```
+import { addDecorator } from "@storybook/react";
+import { ThemeProvider } from "styled-components";
+import { theme } from "../src/styles/theme";
+
+export const parameters = {
+  actions: { argTypesRegex: "^on[A-Z].*" },
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/,
+    },
+  },
+}
+
+addDecorator((story) => (
+  <ThemeProvider theme={theme} >
+    {story()}
+  </ThemeProvider >
+))
+```
+
+Agora no stories do componente é so passar os argumentos necessarios pro componente funcionar:
+
+```
+export default {
+  title: 'Heading',
+  component: Heading,
+  args: {
+    children: 'Texto de exemplo pro Heading'
+  }
+};
+```
+
+Você tambem pode passar os tipos de argumentos. Exemplo:
+
+```
+export default {
+  title: 'Heading',
+  component: Heading,
+  args: {
+    children: 'Texto de exemplo'
+  },
+  argsTypes: {
+    children: { type: 'string' }
+  }
+};
+```
+
 
 # React Router Dom V6 <a name="react-router-dom-v6"></a>
 
